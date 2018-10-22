@@ -1,0 +1,3 @@
+This program just wastes resources on the cluster, which it will do as soon as it is deployed!  
+The easiest way to turn it off is to uninstall this helm chart.  To uninstall type:
+  helm delete --purge {{ include "busyidle.fullname" . }}
