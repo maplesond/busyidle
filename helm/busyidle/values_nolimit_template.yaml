@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: danacr.azurecr.io/busyidle
-  tag: latest
+  tag: VERSION
   pullPolicy: IfNotPresent
 
 nameOverride: ""

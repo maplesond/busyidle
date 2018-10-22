@@ -47,17 +47,18 @@
 
 ---
 
-### Lessons learnt
+### Lessons Learnt
 
-- You should always:
+- Always:
 
   - Specify resource requests and limits for pods
 
-  - Don't skimp on node (VM) sizes; get capable nodes
-    - Kubernetes worker nodes will have some memory pre-allocated for system and kubernetes tasks that you can't use: ~800MB with AKS.
+  - Provision capable nodes; don't be too tight with VM size
+    - Default with Azure is 1 core and 2.7GB mem available per node
+    - Keep in mind worker nodes will have some memory pre-allocated for system and kubernetes tasks that you can't use: ~800MB.
 
 
-- Also consider:
+- Consider:
 
   - Cluster auto-scaling
 
@@ -66,15 +67,18 @@
   - For memory keep request and limit level the same and always a little higher than the app will use
     - However, having a higher limit allows for pod to have occasionally memory bursts
 
-Also note:
+### More Lessons Learnt:
 
   - If using helm, "*helm delete --purge*" does not work when cluster is locked up
-    - Use "*kubectl delete pod ...*" instead
+    - Use "*kubectl delete deployment ...*" instead
 
-  - AKS manages your K8s master nodes for you and provides it as a service.  It also sets up your worker nodes and at present doesn't allow you much flexibility to customise settings.
-
-  - With AKS if you delete a node via "*kubectl delete node ...*" you can get out of sync with the AKS service.
-    - A (not very good) solution without deleting the cluster is to scale back the nodes then expand out again
+  - AKS is a PaaS offering from Microsoft
+    - Manages your K8s master nodes for you
+    - Provisions worker nodes
+    - Limited flexibility to customise settings.
+    - If anything goes badly wrong (i.e. lost nodes) you might need to pick up the phone to Microsoft support!
+      - i.e. if you delete a node via "*kubectl delete node ...*" you can get out of sync with the AKS service.
+      - A (not very good) solution without deleting the cluster is to scale back the nodes then expand out again
 
 
     </textarea>
