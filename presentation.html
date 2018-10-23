@@ -19,66 +19,39 @@
   <body>
     <textarea id="source">
 
-# Breaking Kubernetes (and how to fix it)
-
-### Daniel Mapleson
-
----
-
-### Background
-
-- Overconsuming resources in a kubernetes cluster can make it unusable
-
-- Even if problem is initially isolated to a single node, this can cascade problems through the cluster
-
-- How do we make sure this doesn't happen?
-
----
-
-### Demo
-
-- Deploy out a program
-
-- Overconsume resources in a cluster
-
-- *Hope I can rescue the cluster quickly!!!*
-
-- Impose limits and redeploy (without breaking the cluster)
-
----
 
 ### Lessons Learnt
 
-- Always:
+- Always specify resource request and limit values for every pods
 
-  - Specify resource requests and limits for pods
-
-  - Provision capable nodes; don't be too tight with VM size
-    - Default with Azure is 1 core and 2.7GB mem available per node
-    - Keep in mind worker nodes will have some memory pre-allocated for system and kubernetes tasks that you can't use: ~800MB.
-
-
-- Consider:
-
-  - Cluster auto-scaling
-
-  - Set namespace default memory limits
+- Monitoring and alerting is essential to identify problems before they occur
   
-  - For memory keep request and limit level the same and always a little higher than the app will use
-    - However, having a higher limit allows for pod to have occasionally memory bursts
+- Also consider:
 
-### More Lessons Learnt:
+  - Cluster auto-scaling (requires pod resource requests and limits to be set!)
 
-  - If using helm, "*helm delete --purge*" does not work when cluster is locked up
-    - Use "*kubectl delete deployment ...*" instead
+  - Provising capable nodes; don't be too tight with VM size.  Keep in mind the default worker node from Azure (Standard_DS1_v2) only has 1 core and 2.7GB mem available to do work (3.5GB total).
 
-  - AKS is a PaaS offering from Microsoft
-    - Manages your K8s master nodes for you
-    - Provisions worker nodes
-    - Limited flexibility to customise settings.
-    - If anything goes badly wrong (i.e. lost nodes) you might need to pick up the phone to Microsoft support!
-      - i.e. if you delete a node via "*kubectl delete node ...*" you can get out of sync with the AKS service.
-      - A (not very good) solution without deleting the cluster is to scale back the nodes then expand out again
+  - Setting overall namespace resource *request*, *limit*, *min*, and *max* values.
+
+  - Keeping memory request and limit level the same and always a little higher than the app will use.  (However, having a higher limit allows for pod to have occasionally memory bursts.)
+
+---
+
+### Recovering from node failure
+
+This typically happens due to memory being overcommited
+
+1. First type "*kubectl get po --all-namespaces -o wide*" to see state of pods and if these are specific to a node (look for pods in "*Unknown* state").
+
+2. If there's a problem, try deleting deployments or pods that are running on that node
+
+3. If that fails, start an internative shell running in the cluster then try *SSH*ing from there to the affected node.  If this works, kill any troublesome processes or consider restarting the node.
+
+4. If that fails you probably need to delete a node via "*kubectl delete node ...*".  This can sometimes get out of sync with the AKS portal settings.  In that case you can try re-scaling the AKS cluster.
+
+5. Failing that you need to pick up the phone to Microsoft support!
+    
 
 
     </textarea>

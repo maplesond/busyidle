@@ -3,7 +3,7 @@
 
 REG=danacr.azurecr.io
 NAME=busyidle
-VERSION=4
+VERSION=7
 IMG=$(REG)/$(NAME):$(VERSION)
 HELM_DIR=helm/busyidle
 
@@ -43,22 +43,22 @@ $(HELM_DIR)/values_limited.yaml: $(HELM_DIR)/values_limited_template.yaml
 $(HELM_DIR)/values_nolimit.yaml: $(HELM_DIR)/values_nolimit_template.yaml
 	sed 's/VERSION/$(VERSION)/g' $(HELM_DIR)/values_nolimit_template.yaml > $(HELM_DIR)/values_nolimit.yaml
 
-deploy: $(HELM_DIR)/values_nolimit.yaml
-	helm install -f $(HELM_DIR)/values_nolimit.yaml --name busyidle-nolimit ./helm/busyidle
+deploy_unlimited: $(HELM_DIR)/values_unlimited.yaml
+	helm install -f $(HELM_DIR)/values_unlimited.yaml --name busyidle-unlimited ./helm/busyidle
 
-gooddeploy: $(HELM_DIR)/values_limited.yaml
+deploy_limited: $(HELM_DIR)/values_limited.yaml
 	helm install -f $(HELM_DIR)/values_limited.yaml --name busyidle-limited ./helm/busyidle
 
-scale:
-	kubectl scale deployment --replicas=20 busyidle-nolimit
+scale_unlimited:
+	kubectl scale deployment --replicas=20 busyidle-unlimited
 
-goodscale:
+scale_limited:
 	kubectl scale deployment --replicas=20 busyidle-limited
 
-undeploy:
-	helm delete --purge busyidle-nolimit; rm $(HELM_DIR)/values_nolimit.yaml
+undeploy_unlimited:
+	helm delete --purge busyidle-unlimited; rm $(HELM_DIR)/values_unlimited.yaml
 
-goodundeploy:
+undeploy_limited:
 	helm delete --purge busyidle-limited; rm $(HELM_DIR)/values_limited.yaml
 
 

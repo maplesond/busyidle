@@ -2,8 +2,8 @@
 
 int main(int argc, char** argv) {
 	
-	// Create a 256MB array of bytes
-	const std::size_t SIZE = 256 * 1024 * 1024;
+	// Create a 512MB array of bytes
+	const std::size_t SIZE = 512 * 1024 * 1024;
 	unsigned char *arr = new unsigned char[SIZE];
 	
 	// Loop forever setting bytes in the array

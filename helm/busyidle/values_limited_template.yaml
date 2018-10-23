@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: danacr.azurecr.io/busyidle
-  tag: latest
+  tag: VERSION
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -14,11 +14,9 @@ fullnameOverride: ""
 
 resources:
   limits:
-    cpu: 100m
-    memory: 260Mi
+    memory: 550Mi
   requests:
-    cpu: 100m
-    memory: 260Mi
+    memory: 550Mi
 
 nodeSelector: {}
 

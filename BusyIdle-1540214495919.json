@@ -57,7 +57,7 @@
       "fill": 1,
       "gridPos": {
         "h": 9,
-        "w": 12,
+        "w": 23,
         "x": 0,
         "y": 0
       },
@@ -85,21 +85,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"default\"}[1m]))",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"default\"}[30s]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "BusyIdle",
           "refId": "A"
         },
         {
-          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=~\"istio-system|kube-system|kube-public\"}[1m]))",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=~\"istio-system|kube-system|kube-public\"}[30s]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Other",
           "refId": "B"
         },
         {
-          "expr": "sum(rate(container_cpu_usage_seconds_total{name!~\"POD\",namespace=~\".+\"}[1m]))",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{name!~\"POD\",namespace=~\".+\"}[30s]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Total",
@@ -162,7 +162,7 @@
       "fill": 1,
       "gridPos": {
         "h": 9,
-        "w": 12,
+        "w": 23,
         "x": 0,
         "y": 9
       },
@@ -190,7 +190,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(machine_memory_bytes)",
+          "expr": "sum(machine_memory_bytes) - (5 * 800000000)",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -302,5 +302,5 @@
   "timezone": "",
   "title": "BusyIdle",
   "uid": "BLSDPb1iz",
-  "version": 6
+  "version": 2
 }
