@@ -40,8 +40,8 @@ clean:
 $(HELM_DIR)/values_limited.yaml: $(HELM_DIR)/values_limited_template.yaml
 	sed 's/VERSION/$(VERSION)/g' $(HELM_DIR)/values_limited_template.yaml > $(HELM_DIR)/values_limited.yaml
 
-$(HELM_DIR)/values_nolimit.yaml: $(HELM_DIR)/values_nolimit_template.yaml
-	sed 's/VERSION/$(VERSION)/g' $(HELM_DIR)/values_nolimit_template.yaml > $(HELM_DIR)/values_nolimit.yaml
+$(HELM_DIR)/values_unlimited.yaml: $(HELM_DIR)/values_unlimited_template.yaml
+	sed 's/VERSION/$(VERSION)/g' $(HELM_DIR)/values_unlimited_template.yaml > $(HELM_DIR)/values_unlimited.yaml
 
 deploy_unlimited: $(HELM_DIR)/values_unlimited.yaml
 	helm install -f $(HELM_DIR)/values_unlimited.yaml --name busyidle-unlimited ./helm/busyidle

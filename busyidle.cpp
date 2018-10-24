@@ -1,5 +1,6 @@
 #include <cstddef>
 
+// This program just wastes a defined amount of memory and keeps 1 core busy
 int main(int argc, char** argv) {
 	
 	// Create a 512MB array of bytes

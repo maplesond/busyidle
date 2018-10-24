@@ -20,9 +20,29 @@
     <textarea id="source">
 
 
+### Outline
+
+- Investigation into why CAP spinnaker deployments were failing
+  - Found all pods on our spinnaker AKS cluster in *Unknown* state
+
+- Hypothesis: overcommiting resources on a single node triggered a cascade of node failures in the cluster
+
+- Demo:
+  - Attempts to show that the hypothesis is correct ...
+
+  - ... and how to avoid this happening again
+
+- Also, in worst case, how can we recover from node failures?
+
+---
+
+### Demo
+
+---
+
 ### Lessons Learnt
 
-- Always specify resource request and limit values for every pods
+- *Always* specify resource request and limit values for every pods
 
 - Monitoring and alerting is essential to identify problems before they occur
   
@@ -32,9 +52,9 @@
 
   - Provising capable nodes; don't be too tight with VM size.  Keep in mind the default worker node from Azure (Standard_DS1_v2) only has 1 core and 2.7GB mem available to do work (3.5GB total).
 
-  - Setting overall namespace resource *request*, *limit*, *min*, and *max* values.
+  - Setting namespace resource value defaults: *request*, *limit*, *min*, and *max*.
 
-  - Keeping memory request and limit level the same and always a little higher than the app will use.  (However, having a higher limit allows for pod to have occasionally memory bursts.)
+  - Keeping memory request and limit levels the same.  (However, having a higher limit allows for pod to have occasionally memory bursts.)
 
 ---
 

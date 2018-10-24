@@ -14,8 +14,10 @@ fullnameOverride: ""
 
 resources:
   limits:
+    cpu: 1000m
     memory: 550Mi
   requests:
+    cpu: 100m
     memory: 550Mi
 
 nodeSelector: {}
